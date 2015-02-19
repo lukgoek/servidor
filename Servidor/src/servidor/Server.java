@@ -12,44 +12,37 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
+/**
+ *
+ * @author rogelio_noris
+ */
 public class Server {
     
-    private Socket socket;
-    private ServerSocket serverSocket;
+    private ServerSocket serverSocket;    
+    
+    Vector<ClienteThread> clientes;
+    
+    public Server(){
         
-    private OutputStream outputStream;
-    private InputStream inputStream;
+    }
     
-    private DataOutputStream salidaDatos;
-    private DataInputStream entradaDatos;
-    
-    private boolean conexionActiva;
-    
-
-public Server(){
-
-}
-
-public void conexion(int puerto){
+    void conexion(int puerto){
         try {
+            
+            clientes = new Vector<ClienteThread>();
+                        
             serverSocket = new ServerSocket(puerto);
             System.out.println("Servidor escuchando en el puerto: "+puerto);
-            socket = serverSocket.accept();
-            System.out.println("Un usuario se ha conectado");
-            conexionActiva=true;
-            Thread hiloServer = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    while(conexionActiva){
-                        recibirDatos();
-                    }
-                }
-            });
-            hiloServer.start();    
+            while(true){
+                Socket socket = serverSocket.accept();
+                System.out.println("Un usuario se ha conectado");
+                clientes.add(new ClienteThread(socket));
+            }
+            
             
         } catch (IOException ex) {
             Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
@@ -57,40 +50,15 @@ public void conexion(int puerto){
         
     }
  
-    public void recibirDatos(){
-        try{
-            inputStream = socket.getInputStream();
-            entradaDatos = new DataInputStream(inputStream);
-            System.out.println(entradaDatos.readUTF());
-        }catch(Exception ex){
-            ex.printStackTrace();
-            conexionActiva=false;
-        }
-    }
     
-    public void enviarDatos(String datos){
-        try{
-            outputStream = socket.getOutputStream();
-            salidaDatos = new DataOutputStream(outputStream);
-            salidaDatos.writeUTF(datos);
-            salidaDatos.flush();
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }
-    }
+    
     
     public void cerrarConexion(){
         try{
-            salidaDatos.close();
-            entradaDatos.close();
-            socket.close();
             serverSocket.close();
         }catch(Exception ex){
             ex.printStackTrace();
         }
     }
     
-    
 }
-    
-
