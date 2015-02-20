@@ -16,7 +16,7 @@ import java.net.Socket;
 
 /**
  *
- * @author humberto_lugo
+ * @author Humberto Lugo
  */
 public class ClienteThread {
     
@@ -29,6 +29,9 @@ public class ClienteThread {
     private DataOutputStream salidaDatos;
     private DataInputStream entradaDatos;
     
+    //variable de instancia "LISTENER"
+    public AvisaServer avisaServer;
+    
     private boolean conexionActiva;
     
     public ClienteThread(Socket socket){
@@ -40,7 +43,6 @@ public class ClienteThread {
             public void run() {
                 while(conexionActiva){
                     recibirDatos();
-                    enviarDatos("hola");
                 }
                 cerrarConexion();
             }
@@ -48,10 +50,28 @@ public class ClienteThread {
         hiloServer.start();   
     }
     
+    /**
+     * @param avisaServer*********/
+    public void addListener(AvisaServer avisaServer){
+        
+        this.avisaServer = avisaServer;
+        
+    }
+    
+    /*****************/
+    
+    
     public void recibirDatos(){
         try{
             inputStream = socket.getInputStream();
             entradaDatos = new DataInputStream(inputStream);
+            
+            /*******************/
+            if(this.avisaServer != null){
+            
+                this.avisaServer.onClientReceive();
+           
+            }
             
             System.out.println(entradaDatos.readUTF());
         }catch(Exception ex){
@@ -80,6 +100,8 @@ public class ClienteThread {
             ex.printStackTrace();
         }
     }
+
+    
     
     
 }

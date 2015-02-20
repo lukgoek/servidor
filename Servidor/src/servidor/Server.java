@@ -18,9 +18,9 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author rogelio_noris
+ * @author Humberto Lugo
  */
-public class Server {
+public class Server implements AvisaServer{
     
     private ServerSocket serverSocket;    
     
@@ -40,7 +40,9 @@ public class Server {
             while(true){
                 Socket socket = serverSocket.accept();
                 System.out.println("Un usuario se ha conectado");
-                clientes.add(new ClienteThread(socket));
+                ClienteThread cliente = new ClienteThread(socket);
+                cliente.addListener(this);
+                clientes.add(cliente);
             }
             
             
@@ -59,6 +61,11 @@ public class Server {
         }catch(Exception ex){
             ex.printStackTrace();
         }
+    }
+
+    @Override
+    public void onClientReceive() {
+      System.out.println("Llego un msg");
     }
     
 }
