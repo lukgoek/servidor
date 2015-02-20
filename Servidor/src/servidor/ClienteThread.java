@@ -69,7 +69,7 @@ public class ClienteThread {
             /*******************/
             if(this.avisaServer != null){
             
-                this.avisaServer.onClientReceive();
+                this.avisaServer.onClientReceive(entradaDatos.readUTF());
            
             }
             

@@ -64,7 +64,7 @@ public class Server implements AvisaServer{
     }
 
     @Override
-    public void onClientReceive() {
+    public void onClientReceive(String msg) {
       System.out.println("Llego un msg");
     }
     
