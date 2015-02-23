@@ -19,12 +19,6 @@ interface AvisaServer extends EventListener{
     //Metodos a  heredar en servidos
     public void onClientReceive(String msg);
     
-    
-    
-    
-    
-    
-    
 }
 
 

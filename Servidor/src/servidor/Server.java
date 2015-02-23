@@ -22,6 +22,8 @@ import java.util.logging.Logger;
  */
 public class Server implements AvisaServer{
     
+    
+    
     private ServerSocket serverSocket;    
     
     Vector<ClienteThread> clientes;
@@ -43,6 +45,7 @@ public class Server implements AvisaServer{
                 ClienteThread cliente = new ClienteThread(socket);
                 cliente.addListener(this);
                 clientes.add(cliente);
+               
             }
             
             
@@ -65,7 +68,19 @@ public class Server implements AvisaServer{
 
     @Override
     public void onClientReceive(String msg) {
-      System.out.println("Llego un msg");
+      
+        
+     /*   String comando[] = msg.split("/");
+        
+        
+                    System.out.println("ESTO!"+comando[0]);
+                    if(comando[0].equals("msg")){
+                        //enviarDatos(comando[1]);
+                        System.out.print("AQUIIIII");
+                    }*/
+        
+        
+       
     }
     
 }

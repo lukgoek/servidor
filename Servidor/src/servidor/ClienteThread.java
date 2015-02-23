@@ -1,3 +1,5 @@
+
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -18,10 +20,11 @@ import java.net.Socket;
  *
  * @author Humberto Lugo
  */
-public class ClienteThread {
+public class ClienteThread   {
     
     private Socket socket;
     
+    String datos="";
         
     private OutputStream outputStream;
     private InputStream inputStream;
@@ -34,6 +37,14 @@ public class ClienteThread {
     
     private boolean conexionActiva;
     
+    
+    
+    
+    
+    
+    
+    
+    
     public ClienteThread(Socket socket){
         this.socket=socket;
         
@@ -43,12 +54,26 @@ public class ClienteThread {
             public void run() {
                 while(conexionActiva){
                     recibirDatos();
+                    
+                    if(!datos.equals("")){
+                        enviarDatos(datos);
+                        datos="";
+                    }
                 }
                 cerrarConexion();
             }
         });
         hiloServer.start();   
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     /**
      * @param avisaServer*********/
@@ -61,6 +86,12 @@ public class ClienteThread {
     /*****************/
     
     
+    
+    
+    
+    
+    
+    
     public void recibirDatos(){
         try{
             inputStream = socket.getInputStream();
@@ -70,15 +101,27 @@ public class ClienteThread {
             if(this.avisaServer != null){
             
                 this.avisaServer.onClientReceive(entradaDatos.readUTF());
-           
+                 
             }
             
-            System.out.println(entradaDatos.readUTF());
+            datos = entradaDatos.readUTF();
+           
+            
+            System.out.println("RECIBIRDATOS CLIENTETHREAD"+entradaDatos.readUTF());
         }catch(Exception ex){
             //ex.printStackTrace();
             conexionActiva=false;
         }
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     public void enviarDatos(String datos){
         try{
@@ -86,10 +129,14 @@ public class ClienteThread {
             salidaDatos = new DataOutputStream(outputStream);
             salidaDatos.writeUTF(datos);
             salidaDatos.flush();
+            
+            System.out.println("ENVIADO!");
         }catch(Exception ex){
             ex.printStackTrace();
         }
     }
+    
+    
     
     public void cerrarConexion(){
         try{
