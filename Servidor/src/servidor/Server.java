@@ -68,19 +68,13 @@ public class Server implements AvisaServer{
 
     @Override
     public void onClientReceive(String msg) {
+        
+        for(int i =0; i<clientes.size(); i++){
+            ClienteThread cliente = clientes.get(i);
+            
+            cliente.enviarDatos(msg);
+        }
       
-        
-     /*   String comando[] = msg.split("/");
-        
-        
-                    System.out.println("ESTO!"+comando[0]);
-                    if(comando[0].equals("msg")){
-                        //enviarDatos(comando[1]);
-                        System.out.print("AQUIIIII");
-                    }*/
-        
-        
-       
     }
     
 }

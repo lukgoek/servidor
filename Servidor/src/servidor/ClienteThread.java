@@ -24,7 +24,8 @@ public class ClienteThread   {
     
     private Socket socket;
     
-    String datos="";
+    private String datos = "";
+    public String nickname = "";
         
     private OutputStream outputStream;
     private InputStream inputStream;
