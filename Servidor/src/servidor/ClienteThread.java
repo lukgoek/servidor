@@ -40,10 +40,7 @@ public class ClienteThread   {
     
     
     
-    
-    
-    
-    
+/*******************************************************************************/ 
     
     
     public ClienteThread(Socket socket){
@@ -56,10 +53,7 @@ public class ClienteThread   {
                 while(conexionActiva){
                     recibirDatos();
                     
-                    if(!datos.equals("")){
-                        enviarDatos(datos);
-                        datos="";
-                    }
+                    
                 }
                 cerrarConexion();
             }
@@ -69,10 +63,7 @@ public class ClienteThread   {
     
     
     
-    
-    
-    
-    
+ /*******************************************************************************/   
     
     
     
@@ -84,12 +75,9 @@ public class ClienteThread   {
         
     }
     
-    /*****************/
     
     
-    
-    
-    
+ /*******************************************************************************/
     
     
     
@@ -98,17 +86,39 @@ public class ClienteThread   {
             inputStream = socket.getInputStream();
             entradaDatos = new DataInputStream(inputStream);
             
-            /*******************/
-            if(this.avisaServer != null){
             
-                this.avisaServer.onClientReceive(entradaDatos.readUTF());
-                 
+            
+            String comandos[] =entradaDatos.readUTF().split("/");
+            
+            
+            /**********  GUARDA EL NICKNAME *********/
+            
+            if(comandos[0].equals("nick")){
+                this.nickname = comandos[1];
+                System.out.println("NICK NAME" +this.nickname);
+                
             }
             
-            datos = entradaDatos.readUTF();
-           
+           /* 
+            if(this.avisaServer != null){
             
-            System.out.println("RECIBIRDATOS CLIENTETHREAD"+entradaDatos.readUTF());
+                this.avisaServer.onClientReceive(entradaDatos.readUTF());    
+            }
+            */
+            
+            
+            /**********  ENVIA MSG *********/
+            
+            System.out.println("1"+comandos[0]);
+            System.out.println("2"+comandos[1]);
+            
+            if(comandos[0].equals("msg")){
+            
+                this.avisaServer.onClientReceiveMsg(comandos[1]);    
+            }
+            
+            
+            //System.out.println("RECIBIRDATOS CLIENTETHREAD"+entradaDatos.readUTF());
         }catch(Exception ex){
             //ex.printStackTrace();
             conexionActiva=false;
@@ -117,10 +127,7 @@ public class ClienteThread   {
     
     
     
-    
-    
-    
-    
+ /*******************************************************************************/   
     
     
     
@@ -138,6 +145,7 @@ public class ClienteThread   {
     }
     
     
+/*******************************************************************************/
     
     public void cerrarConexion(){
         try{
@@ -145,7 +153,7 @@ public class ClienteThread   {
             entradaDatos.close();
             socket.close();
         }catch(Exception ex){
-            ex.printStackTrace();
+          //  ex.printStackTrace();
         }
     }
 

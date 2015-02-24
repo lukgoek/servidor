@@ -28,9 +28,17 @@ public class Server implements AvisaServer{
     
     Vector<ClienteThread> clientes;
     
+    
+/*******************************************************************************/
+    
+    
     public Server(){
         
     }
+    
+  
+/*******************************************************************************/
+    
     
     void conexion(int puerto){
         try {
@@ -56,6 +64,7 @@ public class Server implements AvisaServer{
     }
  
     
+/*******************************************************************************/ 
     
     
     public void cerrarConexion(){
@@ -66,15 +75,42 @@ public class Server implements AvisaServer{
         }
     }
 
+/*******************************************************************************/    
+    
     @Override
     public void onClientReceive(String msg) {
+       
+      
+    }
+    
+/*******************************************************************************/
+
+    @Override
+    public void onClientReceiveMsg(String msg) {
+              
+
         
-        for(int i =0; i<clientes.size(); i++){
+        for(int i =0; i<=clientes.size(); i++){
+            
             ClienteThread cliente = clientes.get(i);
+             
+            System.out.println(clientes.elements());
+            
+            System.out.println("nickname "+ cliente.nickname);
             
             cliente.enviarDatos(msg);
         }
-      
+        
+        System.out.println("Implementando OnClientReceiveMsg!");
+        
+        
     }
+
+    
+    
+/*******************************************************************************/
+    
+    
+
     
 }
