@@ -101,7 +101,7 @@ public class Server implements AvisaServer{
             if(nickname.equals(cliente.nickname)){
                 //NADA
             }else{
-                cliente.enviarDatos(msg);
+                cliente.enviarDatos(nickname+" Says: "+msg);
             }
             
             
