@@ -86,11 +86,11 @@ public class Server implements AvisaServer{
 /*******************************************************************************/
 
     @Override
-    public void onClientReceiveMsg(String msg) {
+    public void onClientReceiveMsg(String msg, String nickname) {
               
 
         
-        for(int i =0; i<=clientes.size(); i++){
+        for(int i =0; i<clientes.size(); i++){
             
             ClienteThread cliente = clientes.get(i);
              
@@ -98,7 +98,13 @@ public class Server implements AvisaServer{
             
             System.out.println("nickname "+ cliente.nickname);
             
-            cliente.enviarDatos(msg);
+            if(nickname.equals(cliente.nickname)){
+                //NADA
+            }else{
+                cliente.enviarDatos(msg);
+            }
+            
+            
         }
         
         System.out.println("Implementando OnClientReceiveMsg!");

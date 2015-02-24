@@ -114,13 +114,13 @@ public class ClienteThread   {
             
             if(comandos[0].equals("msg")){
             
-                this.avisaServer.onClientReceiveMsg(comandos[1]);    
+                this.avisaServer.onClientReceiveMsg(comandos[1], this.nickname);    
             }
             
             
             //System.out.println("RECIBIRDATOS CLIENTETHREAD"+entradaDatos.readUTF());
         }catch(Exception ex){
-            //ex.printStackTrace();
+            ex.printStackTrace();
             conexionActiva=false;
         }
     }
